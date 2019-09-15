@@ -1,4 +1,5 @@
 A CUDNN minimal deep learning training code sample using LeNet.
+(이 게시물은 모두의 연구소 풀잎스쿨 CUDA에서 사용되었습니다)
 
 Prerequisites
 =============
@@ -10,7 +11,7 @@ Prerequisites
 * (optional) gflags: https://github.com/gflags/gflags
 
 Set the CUDNN_PATH environment variable to where CUDNN is installed.
-
+(별도의 세팅 없이 컴파일, 사용가능합니다, 단 cuDNN의 설치만 필요합니다)
 
 Compilation
 ===========
