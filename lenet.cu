@@ -337,14 +337,14 @@ __global__ void SoftmaxLossBackprop(const float *label, int num_labels, int batc
 
 struct TrainingContext
 {
-		// cuDNN/cuBLAS을 사용하기 위한 핸들러
+    // cuDNN/cuBLAS을 사용하기 위한 핸들러
     cudnnHandle_t cudnnHandle;
     cublasHandle_t cublasHandle;
 
-		// 입력데이터와 출력데이터 구조 선언
+    // 입력데이터와 출력데이터 구조 선언
     cudnnTensorDescriptor_t dataTensor, conv1Tensor, conv1BiasTensor, pool1Tensor, 
                              conv2Tensor, conv2BiasTensor, pool2Tensor, fc1Tensor, fc2Tensor;
-    // 필터구조체 선언
+    		// 필터구조체 선언
 		cudnnFilterDescriptor_t conv1filterDesc, conv2filterDesc;
     
 		// 컨볼루션 구조체 선언 
