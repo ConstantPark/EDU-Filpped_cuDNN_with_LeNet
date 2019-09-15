@@ -5,22 +5,18 @@
 사전에 설치되어야 하는 것들 (Prerequisites)
 =============
 
-* C++11을 지원하는 컴파일러가 필요합니다.
-* C++11 capable compiler (Visual Studio 2013, GCC 4.9 etc.) (for chrono and random)
-* CUDA (6.5 or newer): https://developer.nvidia.com/cuda-downloads
-* CUDNN (v5, v6): https://developer.nvidia.com/cuDNN/
-* MNIST dataset: http://yann.lecun.com/exdb/mnist/
+* C++11을 지원하는 컴파일러가 필요합니다 (Visual Studio, GCC)
+* CUDA (6.5 이상) 및 cuDNN (v5 이상)
+* MNIST 데이터 셋 (http://yann.lecun.com/exdb/mnist/)
 * (optional) gflags: https://github.com/gflags/gflags
+* CUDNN_PATH를 bash에 등록해야 합니다.  
+별도의 세팅 없이 컴파일하여 사용가능하지만, cuDNN의 설치만 필요합니다.  
+가급적 리눅스 환경에서 사용하시는 것을 권합니다.
 
-Set the CUDNN_PATH environment variable to where CUDNN is installed.
-
-(별도의 세팅 없이 컴파일하여 사용가능합니다, 단 cuDNN의 설치만 필요합니다)
-(가급적 리눅스 환경에서 사용하시는 것을 권합니다)
-
-Compilation
+컴파일 방법 (How to build)
 ===========
 
-The project can either be compiled with CMake (cross-platform) or Visual Studio.
+* CMAKE를 사용하여 컴파일 합니다.
 
 To compile with CMake, run the following commands:
 ```bash
