@@ -16,9 +16,9 @@
 컴파일 방법 (How to build)
 ===========
 
-* CMAKE를 사용하여 컴파일 합니다.
+* CMake를 사용하여 컴파일 합니다.
 
-To compile with CMake, run the following commands:
+CMake를 사용하여 컴파일 하는 과정은 다음과 같습니다.
 ```bash
 ~: $ cd cudnn-training/
 ~/cudnn-training: $ mkdir build
