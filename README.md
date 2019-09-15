@@ -1,7 +1,7 @@
 이 게시물은 모두의 연구소 풀잎스쿨 8기 CUDA 강의에서 사용되었습니다.
 
 (https://github.com/tbennun/cudnn-training 자료를 참고하여 수정하였습니다.)
-(This git page is based on this git page, https://github.com/tbennun/cudnn-training)
+ (This git page is based on this git page, https://github.com/tbennun/cudnn-training)
 
 사전에 설치되어야 하는 것들 (Prerequisites)
 =============
