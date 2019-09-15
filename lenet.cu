@@ -344,26 +344,26 @@ struct TrainingContext
     // 입력데이터와 출력데이터 구조 선언
     cudnnTensorDescriptor_t dataTensor, conv1Tensor, conv1BiasTensor, pool1Tensor, 
                              conv2Tensor, conv2BiasTensor, pool2Tensor, fc1Tensor, fc2Tensor;
-    		// 필터구조체 선언
-		cudnnFilterDescriptor_t conv1filterDesc, conv2filterDesc;
+    // 필터구조체 선언
+    cudnnFilterDescriptor_t conv1filterDesc, conv2filterDesc;
     
-		// 컨볼루션 구조체 선언 
-		cudnnConvolutionDescriptor_t conv1Desc, conv2Desc;
+    // 컨볼루션 구조체 선언 
+    cudnnConvolutionDescriptor_t conv1Desc, conv2Desc;
     
-		// 입력과 필터, 패딩, 스트라이드가 주어졌을 때, 가장 빠른 알고리즘을 선택 (피드포워드/백워드)
-		cudnnConvolutionFwdAlgo_t conv1algo, conv2algo;
+    // 입력과 필터, 패딩, 스트라이드가 주어졌을 때, 가장 빠른 알고리즘을 선택 (피드포워드/백워드)
+    cudnnConvolutionFwdAlgo_t conv1algo, conv2algo;
     
-		// 필터 컨볼루션
-		cudnnConvolutionBwdFilterAlgo_t conv1bwfalgo, conv2bwfalgo;
+    // 필터 컨볼루션
+    cudnnConvolutionBwdFilterAlgo_t conv1bwfalgo, conv2bwfalgo;
 
-		// 백워드 데이터 컨볼루션
+    // 백워드 데이터 컨볼루션
     cudnnConvolutionBwdDataAlgo_t conv2bwdalgo;
 		
-		// 풀링 
+    // 풀링 
     cudnnPoolingDescriptor_t poolDesc;
     
-		// 활성화 함수
-		cudnnActivationDescriptor_t fc1Activation;
+    // 활성화 함수
+    cudnnActivationDescriptor_t fc1Activation;
 
     int m_gpuid;
     int m_batchSize;
@@ -411,8 +411,8 @@ struct TrainingContext
         // Set tensor descriptor sizes
         // 초기화 과정 (텐서의 구조, 데이터 타입 등을 정의함)
 
-				// Bias
-				checkCUDNN(cudnnSetTensor4dDescriptor(conv1BiasTensor,
+	// Bias
+	checkCUDNN(cudnnSetTensor4dDescriptor(conv1BiasTensor,
                                               CUDNN_TENSOR_NCHW,
                                               CUDNN_DATA_FLOAT,
                                               1, conv1.out_channels,
@@ -423,7 +423,7 @@ struct TrainingContext
                                               1, conv2.out_channels,
                                               1, 1));
         
-				// Pooling layer
+	// Pooling layer
         checkCUDNN(cudnnSetPooling2dDescriptor(poolDesc,
                                                CUDNN_POOLING_MAX,
                                                CUDNN_PROPAGATE_NAN,
@@ -437,7 +437,7 @@ struct TrainingContext
                                               conv2.out_height / pool2.stride,
                                               conv2.out_width / pool2.stride));
 		
-				// Fully-connected layer
+	// Fully-connected layer
         checkCUDNN(cudnnSetTensor4dDescriptor(fc1Tensor,
                                               CUDNN_TENSOR_NCHW,
                                               CUDNN_DATA_FLOAT,
@@ -448,12 +448,13 @@ struct TrainingContext
                                               CUDNN_DATA_FLOAT,
                                               batch_size, fc2.outputs, 1, 1));
 
-				// Activation function (ReLU)
+	// Activation function (ReLU)
         checkCUDNN(cudnnSetActivationDescriptor(fc1Activation, CUDNN_ACTIVATION_RELU,
                                                 CUDNN_PROPAGATE_NAN, 0.0));
 
 
         // Set convolution tensor sizes and compute workspace size
+	// 최적의 버퍼 크기를 설정합니다.
         size_t workspace = 0;
         workspace = std::max(workspace, SetFwdConvolutionTensors(conv1, dataTensor, conv1Tensor, conv1filterDesc, conv1Desc, conv1algo));
         workspace = std::max(workspace, SetBwdConvolutionTensors(dataTensor, conv1Tensor, conv1filterDesc, conv1Desc, &conv1bwfalgo, nullptr));
@@ -499,7 +500,7 @@ struct TrainingContext
         int h = conv.in_height;
         int w = conv.in_width;
 
-				// 초기화 작업: 텐서의 형태, 데이터 타입 정의
+	// 초기화 작업: 텐서의 형태, 데이터 타입 정의
         checkCUDNN(cudnnSetTensor4dDescriptor(srcTensorDesc,
                                               CUDNN_TENSOR_NCHW,
                                               CUDNN_DATA_FLOAT,
@@ -514,7 +515,7 @@ struct TrainingContext
                                               conv.kernel_size,
                                               conv.kernel_size));
 
-				// 컨볼루션의 패딩, 스트라이드, 컨볼루션 모드 등을 세팅
+	// 컨볼루션의 패딩, 스트라이드, 컨볼루션 모드 등을 세팅
 #if CUDNN_MAJOR > 5
         checkCUDNN(cudnnSetConvolution2dDescriptor(convDesc,
                                                    0, 0,
@@ -532,20 +533,20 @@ struct TrainingContext
 
         // Find dimension of convolution output
         // 입력데이터를 세팅, 컨볼루션 연산을 했을 때 출력 데이터의 구조 계산
-				checkCUDNN(cudnnGetConvolution2dForwardOutputDim(convDesc,
+	checkCUDNN(cudnnGetConvolution2dForwardOutputDim(convDesc,
                                                          srcTensorDesc,
                                                          filterDesc,
                                                          &n, &c, &h, &w));
 
-				// 출력 데이터의 구조 정의
+	// 출력 데이터의 구조 정의
         checkCUDNN(cudnnSetTensor4dDescriptor(dstTensorDesc,
                                               CUDNN_TENSOR_NCHW,
                                               CUDNN_DATA_FLOAT,
                                               n, c,
                                               h, w));
         
-				// 입력과 필터, 패딩, 스트라이드가 주어졌을 때, 가장 빠르게 계산할 수 있는 알고리즘 탐색:
-				checkCUDNN(cudnnGetConvolutionForwardAlgorithm(cudnnHandle,
+	// 입력과 필터, 패딩, 스트라이드가 주어졌을 때, 가장 빠르게 계산할 수 있는 알고리즘 탐색:
+	checkCUDNN(cudnnGetConvolutionForwardAlgorithm(cudnnHandle,
                                                        srcTensorDesc,
                                                        filterDesc,
                                                        convDesc,
@@ -554,7 +555,7 @@ struct TrainingContext
                                                        0,
                                                        &algo));
         
-				// 가장 빠른 알고리즘을 사용할 경우, 계산과정에서 필요한 데이터 버퍼 크기 확인
+	// 가장 빠른 알고리즘을 사용할 경우, 계산과정에서 필요한 데이터 버퍼 크기 확인
         checkCUDNN(cudnnGetConvolutionForwardWorkspaceSize(cudnnHandle,
                                                            srcTensorDesc,
                                                            filterDesc,
@@ -576,7 +577,7 @@ struct TrainingContext
         float alpha = 1.0f, beta = 0.0f;
         checkCudaErrors(cudaSetDevice(m_gpuid));
 
-				// 신경망 계산 시작
+	// 신경망 계산 시작
         // Conv1 layer
         checkCUDNN(cudnnConvolutionForward(cudnnHandle, &alpha, dataTensor,
                                            data, conv1filterDesc, pconv1, conv1Desc, 
@@ -711,8 +712,9 @@ struct TrainingContext
         // Accounting for batch size in SGD
         checkCudaErrors(cublasSscal(cublasHandle, ref_fc2.outputs * m_batchSize, &scalVal, dloss_data, 1));
 
-				// 역전파 과정 (Chain-rule)
-		    // FC2 layer
+	// 역전파 과정 (Chain-rule)
+	// 역전파 과정은 Chain-rule에 의해서 3 종류의 Component로 구성된 수식으로 표현됩니다.
+	// FC2 layer
         // Compute derivative with respect to weights: gfc2 = (fc1relu * dfc2smax')
         checkCudaErrors(cublasSgemm(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_T, ref_fc2.inputs, ref_fc2.outputs, m_batchSize,
                                     &alpha, fc1relu, ref_fc2.inputs, dloss_data, ref_fc2.outputs, &beta, gfc2, ref_fc2.inputs));
@@ -746,7 +748,7 @@ struct TrainingContext
         
         // Conv2 layer
         // 그라디언트 계산 (바이어스)
-				checkCUDNN(cudnnConvolutionBackwardBias(cudnnHandle, &alpha, conv2Tensor,
+	 checkCUDNN(cudnnConvolutionBackwardBias(cudnnHandle, &alpha, conv2Tensor,
                                                 dpool2, &beta, conv2BiasTensor, gconv2bias));
 
         
@@ -756,7 +758,7 @@ struct TrainingContext
                                                   conv2bwfalgo, workspace, m_workspaceSize,
                                                   &beta, conv2filterDesc, gconv2));
     		
-				// 백워드 
+	// 백워드 
         checkCUDNN(cudnnConvolutionBackwardData(cudnnHandle, &alpha, conv2filterDesc,
                                                 pconv2, conv2Tensor, dpool2, conv2Desc, 
                                                 conv2bwdalgo, workspace, m_workspaceSize,
