@@ -26,20 +26,13 @@ To compile with CMake, run the following commands:
 ~/cudnn-training/build: $ cmake ..
 ~/cudnn-training/build: $ make
 ```
-
-If compiling under linux, make sure to either set the ```CUDNN_PATH``` environment variable to the path CUDNN is installed to, or extract CUDNN to the CUDA toolkit path.
-
-To enable gflags support, uncomment the line in CMakeLists.txt. In the Visual Studio project, define the macro ```USE_GFLAGS```.
+```CUDNN_PATH```, ```USE_GFLAGS``` 의 설정이 존재합니다.  
+```USE_GFLAGS```는 GFLAG를 사용할때만 필요합니다.
 
 Running
 =======
 
-Extract the MNIST training and test set files (*-ubyte) to a directory (if gflags are not used, the default is the current path).
-
-You can also load and save pre-trained weights (e.g., published along with CUDNN), using the "pretrained" and "save_data" flags respectively.
-
-(build 폴더 내부에 MNIST의 데이터를 넣어두었습니다. 그냥 실행하시면 됩니다)
-
-
-Running
-=======
+* build 폴더 내부에 MNIST의 데이터를 넣어두었습니다. 그냥 실행하시면 됩니다.  
+* 컴파일 후에 생성된 바이너리가 있는 폴더 (build)에 MNIST의 데이터가 필요합니다.
+* 이후 자동적으로 실행이 됩니다.
+* Volta (v100) 기준으로 0.76ms, TitanX에서 1.54ms, P100에서 1.14ms가 소요됩니다.
