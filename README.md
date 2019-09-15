@@ -39,3 +39,5 @@ Running
 Extract the MNIST training and test set files (*-ubyte) to a directory (if gflags are not used, the default is the current path).
 
 You can also load and save pre-trained weights (e.g., published along with CUDNN), using the "pretrained" and "save_data" flags respectively.
+
+(build 폴더 내부에 MNIST의 데이터를 넣어두었습니다. 그냥 실행하시면 됩니다)
