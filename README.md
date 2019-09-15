@@ -12,7 +12,8 @@ Prerequisites
 * (optional) gflags: https://github.com/gflags/gflags
 
 Set the CUDNN_PATH environment variable to where CUDNN is installed.
-(별도의 세팅 없이 컴파일, 사용가능합니다, 단 cuDNN의 설치만 필요합니다)
+
+(별도의 세팅 없이 컴파일하여 사용가능합니다, 단 cuDNN의 설치만 필요합니다)
 
 Compilation
 ===========
